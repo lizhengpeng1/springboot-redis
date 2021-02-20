@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author lizhengpeng
@@ -131,6 +132,20 @@ public class TestController {
         Long rank = redisTemplate.opsForZSet().rank( "myZSet", "cc" );
         //根据rank获取zset元素中score
         Double score1 = redisTemplate.opsForZSet().score( "myZSet", "cc" );
+
+        ///Redis基本命令-Geospatial 地理位置
         return "ok";
+    }
+
+    @RequestMapping(value="/test/getredis")
+    public String getredis() throws JsonProcessingException {
+        Boolean aBoolean = redisTemplate.opsForValue().setIfAbsent( "lock", "lock", 10, TimeUnit.SECONDS );
+        System.out.println( aBoolean );
+        String key=(String)redisUtil.get("aa");
+        if(null==key){
+            redisUtil.set( "aa","",5 );
+        }
+        return "ok";
+
     }
 }
