@@ -96,42 +96,41 @@ public class TestController {
 
     @RequestMapping(value="/test/zset")
     public String testZSet() throws JsonProcessingException {
-        Set<ZSetOperations.TypedTuple<String>> typedTupleSet=new HashSet<>(  );
-        for(int i=1;i<=9;i++){
-            double score= i*0.1;
-            ZSetOperations.TypedTuple typedTuple=new DefaultTypedTuple<String>("value"+i,score);
-            typedTupleSet.add( typedTuple );
-        }
-       // redisTemplate.opsForZSet().add("zset",typedTupleSet);
-        String aa="测试1";
-        //第二次修改提交推送
+        User user =new User("lzp1","10" );
+        Set<ZSetOperations.TypedTuple<Object>> set =new HashSet<>();
+        DefaultTypedTuple<Object> defaultTypedTuple1 = new DefaultTypedTuple<>("b", 20.0);
+        DefaultTypedTuple<Object> defaultTypedTuple2 = new DefaultTypedTuple<>("c", 30.0);
+        DefaultTypedTuple<Object> defaultTypedTuple3 = new DefaultTypedTuple<>("d", 40.0);
+        DefaultTypedTuple<Object> defaultTypedTuple4 = new DefaultTypedTuple<>(user, 10.0);
+        set.add(defaultTypedTuple1);
+        set.add(defaultTypedTuple2);
+        set.add(defaultTypedTuple3);
+        set.add(defaultTypedTuple4);
+        redisTemplate.opsForZSet().add( "plZset",set);
+        Set<Object> plZset = redisTemplate.opsForZSet().range( "plZset", 0, -1 );
 
-        //第三次修改提交推送
+        //在zset中添加a
+        redisTemplate.opsForZSet().add("myZSet", "aa",10);
+        redisTemplate.opsForZSet().add("myZSet", "bb",5);
+        redisTemplate.opsForZSet().add("myZSet", "cc",15);
+        User user1 =new User("lzp1","10" );
+        redisTemplate.opsForZSet().add("myZSet", user1,3);
+        redisTemplate.opsForZSet().add("myZSet", "bba",5);
+        Set<Object> myZSet = redisTemplate.opsForZSet().range( "myZSet", 0, -1 );
 
-        //第四次修改提交推送
-
-        //第五次修改提交推送
-
-        //第六次修改提交推送
-        String bb="bb";
-        //创建分支
-        String dev="dev";
-
-        //第七次修改提交推送github修改冲突推送本地修改冲突
-        String test="test21";
-        String test1="test21";
-        String test2="test21";
-        String test3="test21";
-        String test4="test21";
-
-
-        String test666="test21";
-
-
-        Set<Object> set1 = redisTemplate.opsForSet().members( "set1" );
-        Boolean boo=redisTemplate.opsForSet().isMember("set1","abc" );
-        Boolean boo1=redisTemplate.opsForSet().isMember("set1","11" );
-
+        System.out.println(redisTemplate.opsForZSet().range("myZSet", 0, -1));
+        //获取zset中指定score范围值内的元素
+        Set<Object> myZSet1 = redisTemplate.opsForZSet().rangeByScore( "myZSet", 3, 5 );
+        //对zset中元素的score进行递增
+        Double score = redisTemplate.opsForZSet().score( "myZSet", "cc" );
+        redisTemplate.opsForZSet().incrementScore("myZSet","cc",5);
+        Double scoreAfter = redisTemplate.opsForZSet().score( "myZSet", "cc" );
+        //根据score的区间值统计zset在改score区间中的元素个数
+        Long myZSet2 = redisTemplate.opsForZSet().count( "myZSet", 5, 15 );
+        //根据score获取zset元素中rank
+        Long rank = redisTemplate.opsForZSet().rank( "myZSet", "cc" );
+        //根据rank获取zset元素中score
+        Double score1 = redisTemplate.opsForZSet().score( "myZSet", "cc" );
         return "ok";
     }
 }
