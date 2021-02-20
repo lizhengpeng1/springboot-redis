@@ -103,6 +103,7 @@ public class TestController {
             typedTupleSet.add( typedTuple );
         }
        // redisTemplate.opsForZSet().add("zset",typedTupleSet);
+        String aa="测试1";
 
         return "ok";
     }
