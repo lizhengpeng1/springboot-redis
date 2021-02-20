@@ -118,11 +118,12 @@ public class TestController {
         String dev="dev";
 
         //第七次修改提交推送github修改冲突推送本地修改冲突
-        String test="test2";
-        String test1="test2";
-        String test2="test2";
-        String test3="test2";
-        String test4="test2";
+        String test="test21";
+        String test1="test21";
+        String test2="test21";
+        String test3="test21";
+        String test4="test21";
+
 
         Set<Object> set1 = redisTemplate.opsForSet().members( "set1" );
         Boolean boo=redisTemplate.opsForSet().isMember("set1","abc" );
