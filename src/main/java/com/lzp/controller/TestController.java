@@ -125,6 +125,9 @@ public class TestController {
         String test4="test21";
 
 
+        String test666="test21";
+
+
         Set<Object> set1 = redisTemplate.opsForSet().members( "set1" );
         Boolean boo=redisTemplate.opsForSet().isMember("set1","abc" );
         Boolean boo1=redisTemplate.opsForSet().isMember("set1","11" );
